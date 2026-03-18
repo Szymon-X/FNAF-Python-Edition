@@ -1,7 +1,19 @@
+#things to do 
+#-add chinese golden freddy 
+#-add sound
+#-balance changes
+#-options?
+#-fix animatronic AI
+#+idea Freedy would be a hybrid of foxy and Bonnie also when hes at the door he cant go back you can just lower his
+# agro with flashing lights and stun him with closing door (also you dont need to worry about chica anymore cause she
+# is to afraid of him to be on same position as him)
+#-maybe if im not doing smt else at the moment change cameras from map to ASCII art
+
 #imports
 import time
 import os
 import random
+#import pygame
 
 #Game Variables
 total_actions = 0   
@@ -31,6 +43,8 @@ Freddy_Waiting = 0
 gameON = 0  
 CustomNight = 0
 Deez = 0
+score_to_get = 0
+
 
 #Functions
 def move_opportunity():
@@ -132,7 +146,7 @@ def Bonnie_Move():
         game_over_screen()
                      
 def Chica_Move():
-    global Chica_POS, Rdoor
+    global Chica_POS, Rdoor,Chica_Waiting
     a = None
     if Chica_AI > random.randint(0,20):
         if Chica_POS == 0:
@@ -157,27 +171,54 @@ def Chica_Move():
             else:
                 Chica_POS = 5
         elif Chica_POS == 6:
-            Chica_Waiting = random.randint(3,5)
-            if Rdoor == 1:
-                a = random.randint(0,3)
-                if a == 2:
-                    Chica_POS = 6
+            if Chica_Waiting < 1:
+                if Rdoor == 1:
+                    a = random.randint(0,3)
+                    if a == 1:
+                        Chica_POS = 6
+                    else:
+                        Chica_POS = a
                 else:
-                    Chica_POS = a
-            elif Chica_Waiting < 1:
-                Chica_POS = 7
-            else:
-                Chica_POS = 6
+                    Chica_POS = 7
     if Chica_POS == 6 and Rdoor == 1:
         if random.randint(0,2) == 1:
             Chica_POS = random.randint(0,2)
     if Chica_POS == 7 and cams_on == 1:
-        input("CHICA JUMPSCARE PRESET: ")
+        for i in range(random.randint(1,3)):
+            os.system("cls")
+            os.system("color 0C")
+            print("   __________________________________________________________________")
+            print("  /                                                                 \\")
+            print(" |                                                                   |")
+            print(" |                                                                   |")
+            print(" |                                                                   |")
+            print(" |                                                                   |")
+            print(" |                                                                   |")
+            print(" |                                                                   |")
+            print(" |                                                                   |")
+            print(" |                            __\__/__                               |")
+            print(" |                         __/        \__                            |")
+            print(" |                        /  ___   ___  \                           |")
+            print(" |                       /    0 ___ 0     \                          |")
+            print(" |                       |     /___\      |                          |")
+            print(" |                       |     |___|      |                          |")
+            print(" |                  ____ _\    \___/     /_ ____                     |")
+            print(" |                 /    /  \____________/  \    \                    |")
+            print(" |                /    /|  \            /  |\    \                   |")
+            print(" |               /    / |   \__________/   | \    \                  |")
+            print(" |               |   |  |                  |  |    |                 |")
+            print(" |               |   |  |       LET`S      |  |    |                 |")
+            print(" |               |   |  |        EAT!      |  |    |                 |")
+            print(" |               |   |  \ _________________/  |    |                 |")
+            print("  \\_____________\___|________________________|____/________________/")      
+            time.sleep(0.3)  
+            os.system("color 0A")
+            time.sleep(0.3)  
         game_over_screen()
 
 def Endo_Move():
-    global Endo_POS, Endo_Flashed
-    if Endo_AI > random.randint(0,20):
+    global Endo_POS, Endo_Flashed, Endo_waiting
+    if Endo_AI > random.randint(0,20):        
         if Endo_POS < 5:
             Endo_POS = random.randint(0,5)
         if Endo_POS == 5:
@@ -190,7 +231,7 @@ def Endo_Move():
             if Endo_waiting < 1:
                 Endo_POS = 7
             Endo_POS = 7
-    if  Endo_POS == 7 and cams_on == 1 and not Ldoor == 1:
+    if  Endo_POS == 7 and cams_on == 1 and not Ldoor == 1 and Endo_waiting <= 0:
         for i in range(random.randint(1,3)):
             os.system("cls")
             os.system("color 0C")
@@ -245,36 +286,114 @@ def Foxy_Move():
                 Foxy_Energy = random.randint(0,20)
                 Foxy_Stage = random.randint(0,1)
             else:
-                for i in range(random.randint(1,3)):
-                    os.system("cls")
-                    os.system("color 0C")
-                    print("   __________________________________________________________________")
-                    print("  /                                                                 \\")
-                    print(" |                                                                   |")
-                    print(" |                                                                   |")
-                    print(" |                                                                   |")
-                    print(" |                                                                   |")
-                    print(" |                                                                   |")
-                    print(" |                                                                   |")
-                    print(" |                                                                   |")
-                    print(" |                                                                   |")
-                    print(" |                          FOXY JUMPSCARE                           |")
-                    print(" |                                                                   |")
-                    print(" |                                                                   |")
-                    print(" |                                                                   |")
-                    print(" |                                                                   |")
-                    print(" |                                                                   |")
-                    print(" |                                                                   |")
-                    print(" |                                                                   |")
-                    print(" |                                                                   |")
-                    print(" |                                                                   |")
-                    print(" |                                                                   |")
-                    print(" |                                                                   |")
-                    print(" |                                                                   |")
-                    print("  \\_________________________________________________________________/")      
-                    time.sleep(0.3)  
-                    os.system("color 0A")
-                    time.sleep(0.3)
+                os.system("cls")
+                os.system("color 0C")
+                print("   __________________________________________________________________")
+                print("  /                                                                 \\")
+                print(" |                                                                   |")
+                print(" |                                                                   |")
+                print(" |                                                                   |")
+                print(" |                                                                   |")
+                print(" |                        __             __                          |")
+                print(" |         ____          /()\           /()\                         |")
+                print(" |         \   \         \() \         / ()/                         |")
+                print(" |          |  /          \__/ __\_/__ \__/             | |          |")
+                print(" |          |_             __\/       \/__              |_||         |")
+                print(" |         /  \           /  (O)          \           |/  \|         |")
+                print(" |         \   \          |---0         0  |          /   /          |")
+                print(" |          \   \        /      __OO__      \        /   /           |")
+                print(" |           \  _\__ ___/     _/      \_     \___ __/   /            |")
+                print(" |            \/    /________/____||____\________\     /             |")
+                print(" |             \____________/ /v v v v v\ \___________/              |")
+                print(" |                       __/ \^        ^/   \                        |")
+                print(" |                    __/    /\^      ^/\    \__                     |")
+                print(" |                   / /    /  \^    ^/  \    \ \                    |")
+                print(" |                  / /____/    \_^^_/    \____\ \                   |")
+                print(" |                 /O  O/                    \O  O\                  |")
+                print(" |                /_/_//                      \i_\_\                 |")
+                print("  \\_________________________________________________________________/")      
+                time.sleep(0.3)  
+                os.system("color 0A")
+                os.system('cls')
+                print("   __________________________________________________________________")
+                print("  /                                                                 \\")
+                print(" |                                                                   |")
+                print(" |                                                                   |")
+                print(" |                                                                   |")
+                print(" |                        __             __                          |")
+                print(" |         ____          /()\           /()\                         |")
+                print(" |         \   \         \() \         / ()/                         |")
+                print(" |          |  /          \__/ __\_/__ \__/             | |          |")
+                print(" |          |_             __\/       \/__              |_||         |")
+                print(" |         /  \           /  (O)          \           |/  \|         |")
+                print(" |         \   \          |---0         0  |          /   /          |")
+                print(" |          \   \        /      __OO__      \        /   /           |")
+                print(" |           \  _\__ ___/     _/      \_     \___ __/   /            |")
+                print(" |            \/    /________/____||____\________\     /             |")
+                print(" |             \____________/ /v v v v v\ \___________/              |")
+                print(" |                       __/ \^        ^/   \                        |")
+                print(" |                    __/    /\^      ^/\    \__                     |")
+                print(" |                   / /    /  \^    ^/  \    \ \                    |")
+                print(" |                  / /____/    \_^^_/    \____\ \                   |")
+                print(" |                 /O  O/                    \O  O\                  |")
+                print(" |                /_/_//                      \i_\_\                 |")
+                print(" |                                                                   |")
+                print("  \\_________________________________________________________________/")   
+                time.sleep(0.3)
+                os.system("color 0C")                
+                os.system("cls")
+                print("   __________________________________________________________________")
+                print("  /                                                                 \\")
+                print(" |                                                                   |")
+                print(" |                                                                   |")
+                print(" |                        __             __                          |")
+                print(" |         ____          /()\           /()\                         |")
+                print(" |         \   \         \() \         / ()/                         |")
+                print(" |          |  /          \__/ __\_/__ \__/             | |          |")
+                print(" |          |_             __\/       \/__              |_||         |")
+                print(" |         /  \           /  (O)          \           |/  \|         |")
+                print(" |         \   \          |---0         0  |          /   /          |")
+                print(" |          \   \        /      __OO__      \        /   /           |")
+                print(" |           \  _\__ ___/     _/      \_     \___ __/   /            |")
+                print(" |            \/    /________/____||____\________\     /             |")
+                print(" |             \____________/ /v v v v v\ \___________/              |")
+                print(" |                       __/ \^        ^/   \                        |")
+                print(" |                    __/    /\^      ^/\    \__                     |")
+                print(" |                   / /    /  \^    ^/  \    \ \                    |")
+                print(" |                  / /____/    \_^^_/    \____\ \                   |")
+                print(" |                 /O  O/                    \O  O\                  |")
+                print(" |                /_/_//                      \i_\_\                 |")
+                print(" |                                                                   |")
+                print(" |                                                                   |")                    
+                print("  \\_________________________________________________________________/")   
+                os.system("color 0A")
+                time.sleep(0.3)
+                os.system('cls')
+                print("   __________________________________________________________________")
+                print("  /                                                                 \\")
+                print(" |                                                                   |")
+                print(" |                                                                   |")
+                print(" |                        __             __                          |")
+                print(" |         ____          /()\           /()\                         |")
+                print(" |         \   \         \() \         / ()/                         |")
+                print(" |          |  /          \__/ __\_/__ \__/             | |          |")
+                print(" |          |_             __\/       \/__              |_||         |")
+                print(" |         /  \           /  (O)          \           |/  \|         |")
+                print(" |         \   \          |---0         0  |          /   /          |")
+                print(" |          \   \        /      __OO__      \        /   /           |")
+                print(" |           \  _\__ ___/     _/      \_     \___ __/   /            |")
+                print(" |            \/    /________/____||____\________\     /             |")
+                print(" |             \____________/ /v v v v v\ \___________/              |")
+                print(" |                       __/ \^        ^/   \                        |")
+                print(" |                    __/    /\^      ^/\    \__                     |")
+                print(" |                   / /    /  \^    ^/  \    \ \                    |")
+                print(" |                  / /____/    \_^^_/    \____\ \                   |")
+                print(" |                 /O  O/                    \O  O\                  |")
+                print(" |                /_/_//                      \i_\_\                 |")
+                print(" |                                                                   |")
+                print(" |                                                                   |")
+                print(" |                                                                   |")                    
+                print("  \\_________________________________________________________________/")                      
                 game_over_screen()
 
                 
@@ -286,39 +405,69 @@ def Foxy_Move():
 def Freddy_Move():
     a = None
     global Freddy_POS, Rdoor
-    if Freddy_AI > random.randint(0,20):
-        if Freddy_POS == 0:
-            Freddy_POS = random.randint(0,1)
-        elif Freddy_POS == 1:
-            Freddy_POS = random.randint(1,3)
-        elif Freddy_POS == 2:
-            a = random.randint(1,4)
-            if not a == 3:
-                Freddy_POS = a
-        elif  Freddy_POS == 3:
-            a = random.randint(2,6)
-            if not a == 4:
-                Freddy_POS = a
-        elif Freddy_POS == 4:
-            a = random.randint(2,5)
-            if not a == 3:
-                Freddy_POS = a
-        elif Freddy_POS == 5:
-            if not Chica_POS > 6:
-                Freddy_POS = random.randint(5,6)
-            else:
-                Freddy_POS = 5
-        elif Freddy_POS == 6:
-            if Rdoor == 1:
-                a = random.randint(0,3)
-                if a == 2:
-                    Freddy_POS = 6
-                else:
+    if not cams_on == 1:
+        if Freddy_AI > random.randint(0,20):
+            if Freddy_POS == 0:
+                Freddy_POS = random.randint(0,1)
+            elif Freddy_POS == 1:
+                Freddy_POS = random.randint(1,3)
+            elif Freddy_POS == 2:
+                a = random.randint(1,4)
+                if not a == 3:
                     Freddy_POS = a
-            else:
-                Freddy_POS = 7
+            elif  Freddy_POS == 3:
+                a = random.randint(2,6)
+                if not a == 4:
+                    Freddy_POS = a
+            elif Freddy_POS == 4:
+                a = random.randint(2,5)
+                if not a == 3:
+                    Freddy_POS = a
+            elif Freddy_POS == 5:
+                if not Chica_POS > 6:
+                    Freddy_POS = random.randint(5,6)
+                else:
+                    Freddy_POS = 5
+            elif Freddy_POS == 6:
+                if Rdoor == 1:
+                    a = random.randint(0,3)
+                    if a == 2:
+                        Freddy_POS = 6
+                    else:
+                        Freddy_POS = a
+                else:
+                    Freddy_POS = 7
     if Freddy_POS == 7:
-        input("FREDDY JUMPSCARE PRESET: ")   
+        for i in range(random.randint(1,3)):
+            os.system("cls")
+            os.system("COLOR 0C")
+            print("   ________________________________________________________________")
+            print("  /                                                                \\")
+            print(" |      ITS ME                                          ItS Me       |")
+            print(" |                                      Its ME                       |")
+            print(" |                 its me                                            |")
+            print(" |                                                ITS ME             |")
+            print(" |      ITs mE                  ______                    its me     |")
+            print(" |                              |    |                               |")
+            print(" |                              |    |                               |")
+            print(" |                     _____  __|____|__  _____                      |")
+            print(" |                     | (_|_/__________\_|_) |                      |")
+            print(" |                      \/                  \/                       |")
+            print(" |                      /    0          0    \                       |")
+            print(" |                      |     _____O_____     |                      |")
+            print(" |                     /     /           \     \                     |")
+            print(" |                     \____/______|______\____/                     |")
+            print(" |                      __|                 |__                      |")
+            print(" |               ______ \ \^_^_^_^_^_^_^_^_^/ /_ ______              |")
+            print(" |              /      | \___________________/  \      \             |")
+            print(" |             |\       \     | __/O\ __ |       |    __\            |")
+            print(" |            /  |_____ |    _|/        \|____   |___/   |           |")
+            print(" |           /         \/ \  \                \   \       \          |")
+            print(" |          /          /   \  \                \   \       \         |")
+            print("  \\_______/__________/_____|__|________________|___|_______\________/")
+            time.sleep(0.3)  
+            os.system("color 0A")            
+            time.sleep(0.3)  
         game_over_screen() 
 
 def power_drain( ):
@@ -425,7 +574,36 @@ def power_drain( ):
                         total_actions  = update_clock(2)
                     os.system("COLOR 0A")
                     os.system("cls")
-                    print('Jumscare Preset')
+                    for i in range(random.randint(1,3)):
+                        os.system("cls")
+                        os.system("COLOR 0C")
+                        print("   __________________________________________________________________")
+                        print("  /                                                                 \\")
+                        print(" |      ITS ME                                           ItS Me      |")
+                        print(" |                                      Its ME                       |")
+                        print(" |                 its me                                            |")
+                        print(" |                                                ITS ME             |")
+                        print(" |      ITs mE                  ______                     its me    |")
+                        print(" |                              |    |                               |")
+                        print(" |                              |    |                               |")
+                        print(" |                     _____  __|____|__  _____                      |")
+                        print(" |                     | (_|_/__________\_|_) |                      |")
+                        print(" |                      \/                  \/                       |")
+                        print(" |                      /    0          0    \                       |")
+                        print(" |                      |     _____O_____     |                      |")
+                        print(" |                     /     /           \     \                     |")
+                        print(" |                     \____/______|______\____/                     |")
+                        print(" |                      __|                 |__                      |")
+                        print(" |               ______ \ \^_^_^_^_^_^_^_^_^/ /_ ______              |")
+                        print(" |              /      | \___________________/  \      \             |")
+                        print(" |             |\       \     | __/O\ __ |       |    __\            |")
+                        print(" |            /  |_____ |    _|/        \|____   |___/   |           |")
+                        print(" |           /         \/ \  \                \   \       \          |")
+                        print(" |          /          /   \  \                \   \       \         |")
+                        print("  \\_______/__________/_____|__|________________|___|_______\________/")
+                        time.sleep(0.3)  
+                        os.system("color 0A")            
+                        time.sleep(0.3) 
                     game_over_screen()
                     break
                 else:
@@ -940,11 +1118,11 @@ def office_left():
                         input("ERROR")
                         office_left()
                     elif Ldoor == 0:
-                            usage += 1
+                            usage += 2
                             Ldoor = 1
                             office_left()
                     else: 
-                        usage -= 1
+                        usage -= 2
                         Ldoor = 0
                         office_left()
             elif action == 2:
@@ -1034,11 +1212,11 @@ def office_right():
                         office_right()
                     elif Rdoor == 0:
                         Rdoor = 1
-                        usage += 1
+                        usage += 2
                         office_right()
                     else: 
                         Rdoor = 0
-                        usage -= 1
+                        usage -= 2
                         office_right()
             elif action == 2:
                 if Rdoor == 1:
@@ -1052,49 +1230,99 @@ def office_right():
 
 def office_main():
     os.system("cls")
-    global total_actions
+    global total_actions, gameON
     move_opportunity()
     if power - usage <= 0:
         power_drain() 
     elif total_actions + 2 >= 360 or gameON == 0:
         total_actions = update_clock(2)
     else:
-        total_actions = update_clock(2)
-        power_drain()
-        clock = update_ingame_clock()
-        print("   __________________________________________________________________")
-        print("  /                                                                 \\")
-        print(" |                                                                   |")
-        print(" |                                                                   |")
-        print(" |                                                                   |")
-        print(" |                                                                   |")
-        print(" |    /        ____________________________________             \    |")
-        print(" |   /         |  ______________________________  |              \   |")
-        print(f" |   ( P       | |           {clock}           | |            P )   |")
-        print(" |   { R       | |                              | |            R }   |")
-        print(" |   { E       | |          open cams           | |            E }   |")
-        print(" | <<  S       | |             (1)              | |            S  > >|")
-        print(" |   { S       | |                              | |            S }   |")
-        print(" |   {         | |                              | |              }   |")
-        print(" |   { 2       | |                              | |            3 }   |")
-        print(" |   \          | |____________________________| |               /   |")
-        print(" |    \         |______________(O)_______________|              /    |")
-        print(" |           /                 | |                  \                |")
-        print(" |          /                                        \               |")
-        print(" |_________/                                          \______________|")
-        print(" |        /____________________________________________\             |")
-        print(" |        |                                            |             |")
-        print(" |        |                                            |             |")
-        print("  \\_________________________________________________________________/")
-        print("Power left:", power/2,"%")
-        action = get_int_input("Select Action: ", [1, 2, 3])
-        if action == 1:
-            cams()
-        elif action == 2:
-            office_left()
-        elif action == 3:
-            office_right()
-        time.sleep(2)
+        if random.randint(1,1987) == 1:
+            total_actions = update_clock(2)
+            power_drain()
+            clock = update_ingame_clock()
+            
+            os.system("color 0E")
+            print("   __________________________________________________________________")
+            print("  /                                                                 \\")
+            print(" |     ITS ME             ITS ME                             ITS ME  |")
+            print(" |                                                ITS ME             |")
+            print(" |              ITS ME        ________                               |")
+            print(" |                            |      |                               |")
+            print(" |    /     ITS ME            |      |              ITS ME      \    |")
+            print(" |   /            ___         |      |          ___              \   |")
+            print(" |   ( P         | ()|     ___|______|___      |() |           P )   |")
+            print(" |   { R         |__ \_____|____________|_____/ __|            R }   |")
+            print(" |   { E            \/                         \/              E }   |")
+            print(" | <<  S             |                         |               S  > >|")
+            print(" |   { S             |     0             0     |               S }   |")
+            print(" |   {               |                         |                 }   |")
+            print(" |   { 2             |     ______OO_______     |               3 }   |")
+            print(" |   \               |    |      ||       |    |                 /   |")
+            print(" |    \               \   \______/\_______/   /                 /    |")
+            print(" |                    |___/███████████████\___|                      |")
+            print(" |                     \ \█████████████████/ /                       |")
+            print(" |                      | |███████████████| |                        |")
+            print(" |                       \_________________/                         |")
+            print(" |                                                                   |")
+            print(" |                                                                   |")
+            print("  \\_________________________________________________________________/")
+            for i in range(random.randint(3,5)):
+                os.system("color 6F")
+                time.sleep(0.3)
+                os.system("color 0E")
+                time.sleep(0.3)
+            os.system("color 0E")
+            fate = random.randint(1,4)
+            if fate == 1:
+                os.system("cls")
+                print("ERROR" * 1987)
+                time.sleep(1)
+                exit()
+            elif fate == 2:
+                office_main()
+            elif fate == 3:
+                gameON = 0
+                game_over_screen()
+            
+        else:
+            if gameON == 1:
+                total_actions = update_clock(2)
+                power_drain()
+                clock = update_ingame_clock()
+                print("   __________________________________________________________________")
+                print("  /                                                                 \\")
+                print(" |                                                                   |")
+                print(" |                                                                   |")
+                print(" |                                                                   |")
+                print(" |                                                                   |")
+                print(" |    /        ____________________________________             \    |")
+                print(" |   /         |  ______________________________  |              \   |")
+                print(" |   ( P       | |                              | |            P )   |")
+                print(f" |   | R       | |           {clock}           | |            R |   |")
+                print(" |   { E       | |          open cams           | |            E }   |")
+                print(" | <<  S       | |             (1)              | |            S  > >|")
+                print(" |   { S       | |                              | |            S }   |")
+                print(" |   {         | |                              | |              }   |")
+                print(" |   { 2       | |                              | |            3 }   |")
+                print(" |   \          | |____________________________| |               /   |")
+                print(" |    \         |______________(O)_______________|              /    |")
+                print(" |           /                 | |                  \                |")
+                print(" |          /                                        \               |")
+                print(" |_________/                                          \______________|")
+                print(" |        /____________________________________________\             |")
+                print(" |        |                                            |             |")
+                print(" |                                                                   |")
+                print("  \\_________________________________________________________________/")
+                print("Power left:", power/2,"%")
+                action = get_int_input("Select Action: ", [1, 2, 3])
+                if action == 1:
+                    cams()
+                elif action == 2:
+                    office_left()
+                elif action == 3:
+                    office_right()
+                time.sleep(2)
 
 def night_start():  
     global usage, power, Bonnie_AI, Chica_AI, Freddy_AI, Foxy_AI, Endo_AI, Foxy_Stage, Foxy_Energy, Foxy_INCOMING, Deez, gameON, night
@@ -1192,7 +1420,7 @@ def night_start():
     office_main()
 
 def end_night():
-    global night, gameON, usage, power, Ldoor, Rdoor, Bonnie_POS, Chica_POS, Freddy_POS, Endo_POS
+    global night, gameON, usage, power, Ldoor, Rdoor, Bonnie_POS, Chica_POS, Freddy_POS, Endo_POS,score_to_get,highscore
     gameON = 0
     usage = 0
     power = 200
@@ -1202,46 +1430,57 @@ def end_night():
     Chica_POS = 0
     Freddy_POS = 0
     Endo_POS = 0
+    os.system("cls")
+    print("| |=================================================================| |")
+    print("| |=================================================================| |")
+    print("| |                                                                 | |")
+    print("| |                              _______                            | |")
+    print("| |                /            |       |   |\     /|               | |")
+    print("| |               /             |       |   | \   / |               | |")
+    print("| |              /____          |_______|   |  \_/  |               | |")
+    print("| |             /     \         |       |   |       |               | |")
+    print("| |            |      |         |       |   |       |               | |")
+    print("| |             \____/          |       |   |       |               | |")
+    print("| |                                                                 | |")
+    print("| |                                                                 | |")
+    print("| |                                                                 | |")
+    print("| |                                                                 | |")
+    print("| |                                                                 | |")
+    print("| |                                                                 | |")
+    print("| |=================================================================| |")
+    print("| |=================================================================| |")  
     for i in range(random.randint(2,5)):
         time.sleep(0.5)
-        os.system("cls")
         os.system("color 0F")
-        print("| |=================================================================| |")
-        print("| |=================================================================| |")
-        print("| |                                                                 | |")
-        print("| |                              _______                            | |")
-        print("| |                /            |       |   |\     /|               | |")
-        print("| |               /             |       |   | \   / |               | |")
-        print("| |              /____          |_______|   |  \_/  |               | |")
-        print("| |             /     \         |       |   |       |               | |")
-        print("| |            |      |         |       |   |       |               | |")
-        print("| |             \____/          |       |   |       |               | |")
-        print("| |                                                                 | |")
-        print("| |                                                                 | |")
-        print("| |                                                                 | |")
-        print("| |                                                                 | |")
-        print("| |                                                                 | |")
-        print("| |                                                                 | |")
-        print("| |=================================================================| |")
-        print("| |=================================================================| |")  
         time.sleep(0.5) 
         os.system("color 0A")
-        os.system("cls")
     action = get_int_input("1. Continue to next night 2. Main Menu ", [1, 2])
     if action == 1:
         if not CustomNight == 1:
             night += 1
             save_game()    
+        else:
+            if highscore < score_to_get:
+                highscore = score_to_get
+                score_to_get = 0
+                save_game()
         night_start()  
     elif action == 2:
         if not CustomNight == 1:    
             night += 1
             save_game()
+        else:
+            if highscore < score_to_get:
+                highscore = score_to_get
+                score_to_get = 0
+                save_game()
         menu()
 
 def save_game():
     with open("savegame.txt", "w") as f:
-        f.write(str(night))
+        f.write(str(night),)
+    with open("highscore.txt", "w") as f:
+        f.write(str(highscore),)
 
 def load_save():
     try:
@@ -1250,8 +1489,15 @@ def load_save():
     except FileNotFoundError:
         return 1
 
+def load_score():
+    try:
+        with open("highscore.txt", "r") as f:
+            return int(f.read())  
+    except FileNotFoundError:
+        return 0
+
 def clear_save():
-    global night
+    global night, highscore
     if os.path.exists("savegame.txt"):
         os.remove("savegame.txt")
         night = 0
@@ -1330,16 +1576,21 @@ def game_over_screen():
     print(f"| |                    TIP FROM FAZBEAR MANUAL:                     | |")   
     tip = random.randint(1, 5)
     if tip == 1:
-        print(f"| |                       Tip 1                                     | |")
+        print(f"| |      Bonnie is faster than Chica so you should proriterize      | |")
+        print(f"| |                  dealing with him over her.                     | |")    
     elif tip == 2:
-        print(f"| |                       Tip 2                                     | |")
+        print(f"| |      When Chica is in Kitchen you can hear her roumbling        | |")
+        print(f"| |                   around with pans and pots.                    | |")    
     elif tip == 3:
-        print(f"| |                       Tip 3                                     | |")
+        print(f"| |  Endo does not care about direct conections as he uses vents    | |")
+        print(f"| |    to roam around. That makes him quait dangerous be aware!     | |")    
     elif tip == 4:
-        print(f"| |                       Tip 4                                     | |")
+        print(f"| | Foxy cant progress through his phases when you looking on cams. | |")
+        print(f"| |           Check on him regulary to keep him at bay.             | |")    
     elif tip == 5: 
-        print(f"| |                       Tip 5                                     | |")
-    print(f"| |                                                                 | |")
+        print(f"| |           If Freddy is online you are truly f****d.             | |")
+        print(f"| |                                                                 | |")
+
     print(f"| |                                                                 | |")
     print(f"| |                                                                 | |")
     print(f"| |                                                                 | |")
@@ -1355,6 +1606,7 @@ def game_over_screen():
 def menu():
     global power, total_actions, usage, Ldoor, Rdoor, Bonnie_POS, Chica_POS, Freddy_POS, Endo_POS, night, CustomNight
     total_actions = 0
+    score_to_get = 0
     usage = 0
     power = 200  
     Ldoor = 0
@@ -1370,7 +1622,9 @@ def menu():
         
         print("| |=================================================================| |")
         print("| |=================================================================| |")
-        print("| |                                                                 | |")
+        display_score = min(max(highscore, 0), 10000)
+        score_line = f"High Score: {display_score:<5d}"
+        print(f"| |{score_line:<65}| |")
         print("| |Five Nights at Freddy's - Python Edition                         | |")
         print("| |                                                                 | |")
         print("| |  1. New Game                                                    | |")
@@ -1386,14 +1640,16 @@ def menu():
             wybor = get_int_input("Choose option (1-5): ", [1, 2, 3, 4, 5])
             t = False
         else:
-            print("| |  2. Custom Night                                                 | |")
-            print("| |  3. Exit Game                                                    | |")
-            print("| |                                                                  | |")
-            print("| |                                                                  | |")
-            print("| |                                                                  | |")
-            print("| |                                                                  | |")
-            print("| |==================================================================| |")
-            print("| |==================================================================| |")
+            print("| |  2. Custom Night                                                | |")
+            print("| |  3. Exit Game                                                   | |")
+            print("| |                                                                 | |")
+            print("| |                                                                 | |")
+            print("| |                                                                 | |")            
+            print("| |                                                                 | |")
+            print("| |                                                                 | |")
+            print("| |                                                                 | |")
+            print("| |=================================================================| |")
+            print("| |=================================================================| |")
             wybor = get_int_input("Choose option (1-3): ", [1, 2, 3])
             t = False
         if wybor == 1:
@@ -1433,10 +1689,11 @@ def menu():
                 exit()
 
 def Custom_Night():
-    global Bonnie_AI, Chica_AI, Freddy_AI, Foxy_AI, Endo_AI,CustomNight
+    global Bonnie_AI, Chica_AI, Freddy_AI, Foxy_AI, Endo_AI,CustomNight, score_to_get
     s = True
     CustomNight = 1
     animatronic = "Bonnie"
+    score_to_get = 0
     while s:
         i = 0
         for i in range(0,5):            
@@ -1461,14 +1718,19 @@ def Custom_Night():
             print("| |=================================================================| |")
             if animatronic == "Bonnie":
                 Bonnie_AI = get_int_input(f"Enter AI value for {animatronic}: ", range(0, 21))
+                score_to_get += Bonnie_AI * 100 
             elif animatronic == "Chica ":
                 Chica_AI = get_int_input(f"Enter AI value for {animatronic}: ", range(0, 21))
+                score_to_get += Chica_AI * 100
             elif animatronic == "Foxy  ":
                 Foxy_AI = get_int_input(f"Enter AI value for {animatronic}: ", range(0, 21))
+                score_to_get += Foxy_AI * 100
             elif animatronic == "Freddy":
                 Freddy_AI = get_int_input(f"Enter AI value for {animatronic}: ", range(0, 21))
+                score_to_get += Freddy_AI * 100
             elif animatronic == "Endo  ":
                 Endo_AI = get_int_input(f"Enter AI value for {animatronic}: ", range(0, 21))
+                score_to_get += Endo_AI * 100
         chose = get_int_input("If you want to reset values, enter 1. To start night, enter 2: ", [1, 2])
         if chose == 1:
             continue
@@ -1504,6 +1766,7 @@ def get_int_input(prompt, valid_options=None):
 os.system("cls") 
 #clear_save()
 night = load_save()
+highscore = load_score()
 Loading(10)
 print("")
 input("Ready!")
